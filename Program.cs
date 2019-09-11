@@ -7,34 +7,18 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Events;
 
-namespace LineBot
+namespace ReadLineBot
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            SetupLogEnvironment(Path.GetFullPath(".\\logs\\LineBotWebService.log"));
-            BuildWebHost(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseSerilog()
-                .Build();
-
-        private static void SetupLogEnvironment(string logFilePath)
-        {
-            LoggerConfiguration logConfig = new LoggerConfiguration();
-            logConfig.MinimumLevel.Debug()
-                     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                     .Enrich.FromLogContext()
-                     .WriteTo.Console()
-                     .WriteTo.File(logFilePath, rollingInterval: RollingInterval.Day);
-            Log.Logger = logConfig.CreateLogger();
-        }
+                .UseStartup<Startup>();
     }
 }

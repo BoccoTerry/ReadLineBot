@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LineBot.Controllers
+namespace ReadLineBot.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
@@ -42,16 +40,5 @@ namespace LineBot.Controllers
                 }
             }
         }
-
-        [HttpPost("[action]")]
-        public async Task<string> ReadLineBot()
-        {
-            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
-            {
-                return await reader.ReadToEndAsync();
-            }
-        }
-
-
     }
 }
